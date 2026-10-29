@@ -65,19 +65,16 @@ Download and run the [installer](https://github.com/Jongye0l/JipperResourcePack/
 
 ### Development environment
 
-- Linux 7.1.8-arch1-3
-- Rider 2026.2.1
+- Windows 11 25H2
 - .NET Framework 4.8.1
+- .NET SDK 10.0.403
 - C# 14
-- A Dance of Fire and Ice 3.4.0 (r150, e5b157d)
+- A Dance of Fire and Ice 3.3.1 (r148, 1b7d115, steam default at 2026/10/30)
 
 ### Test environment
 
-- Linux 7.1.8-arch1-3
-- A Dance of Fire and Ice 2.9.8 (r136, 87412bd)
-- A Dance of Fire and Ice 3.2.0 (r145, 2aa2745)
-- A Dance of Fire and Ice 3.3.1 (r148, 1b7d115)
-- A Dance of Fire and Ice 3.4.0 (r150, e5b157d)
+- Windows 11 25H2
+- A Dance of Fire and Ice 3.3.1 (r148, 1b7d115, steam default at 2026/10/30)
 
 ---
 
