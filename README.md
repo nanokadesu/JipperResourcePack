@@ -36,15 +36,15 @@ JipperResourcePack adds a range of useful features to the A Dance of Fire and Ic
 
 ### Requirements
 
-This mod requires [JALib](https://github.com/Jongyeol/JALib/releases).
+This mod requires [JALib](https://github.com/Jongye0l/JALib/releases).
 
 ### Installation
 
-Download and run the [installer](https://github.com/Jongyeol/JipperResourcePack/releases/download/v1.0.0.0/JipperResourcePack.Installer.exe). It installs the mod automatically.
+Download and run the [installer](https://github.com/Jongye0l/JipperResourcePack/releases/download/v1.0.0.0/JipperResourcePack.Installer.exe). It installs the mod automatically.
 
 ### Credits
 
-- [Developer: Jongyeol](https://www.youtube.com/@Jongyeol)
+- [Developer: Jongye0l](https://www.youtube.com/@Jongye0l)
 - [Design: Jipper](https://www.youtube.com/@jipper1214)
 - [Translation: changhyeon](https://www.youtube.com/@sjk04_)
 - [Translation: Phrygia](https://www.youtube.com/@sjk04_)
@@ -55,11 +55,11 @@ Download and run the [installer](https://github.com/Jongyeol/JipperResourcePack/
   - [ShowBPM](https://github.com/FLOWERs-Modding/ADOFAI_ShowBPM)
   - [ProgressDisplayer2](https://github.com/FLOWERs-Modding/ADOFAI_ProgressDisplayer2)
   - [AdofaiTweaks](https://github.com/PizzaLovers007/AdofaiTweaks)
-  - [MovingManN](https://github.com/Jongyeol/JIpper-Overlayer/blob/main/Scripts/MovingManN.js)
-  - [MoreTimeTags](https://github.com/Jongyeol/MoreTimeTags)
-  - [BetterCalibration](https://github.com/Jongyeol/BetterCalibration)
-  - [AdvancedCombo](https://github.com/Jongyeol/AdvancedCombo)
-  - [State](https://github.com/Jongyeol/State)
+  - [MovingManN](https://github.com/Jongye0l/JIpper-Overlayer/blob/main/Scripts/MovingManN.js)
+  - [MoreTimeTags](https://github.com/Jongye0l/MoreTimeTags)
+  - [BetterCalibration](https://github.com/Jongye0l/BetterCalibration)
+  - [AdvancedCombo](https://github.com/Jongye0l/AdvancedCombo)
+  - [State](https://github.com/Jongye0l/State)
   - [unity-mod-manager](https://github.com/newman55/unity-mod-manager)
 - Font: [Maplestory OTF Bold](https://fontmeme.com/ktype/maplestory-font)
 
@@ -83,4 +83,4 @@ Download and run the [installer](https://github.com/Jongyeol/JipperResourcePack/
 
 [# Join Jipper's Discord](https://discord.gg/qTbnPhY7YA)
 
-[# Join my Discord](https://discord.jongyeol.kr)
+[# Join my Discord](https://discord.Jongye0l.kr)
