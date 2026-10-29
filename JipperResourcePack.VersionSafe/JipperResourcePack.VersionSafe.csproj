@@ -4,6 +4,7 @@
         <GameVersion Condition="'$(GameVersion)' == ''">latest</GameVersion>
         <GameRelease Condition="'$(GameVersion)' != 'latest'">$(GameVersion.Substring(1))</GameRelease>
         <GameRelease Condition="'$(GameVersion)' == 'latest'">99999</GameRelease>
+        <GameVersionCanonical Condition="'$(GameVersion)' != 'latest'">$([System.String]::Copy('$(GameVersion)').ToUpperInvariant())</GameVersionCanonical>
         <UseFakeCore>true</UseFakeCore>
         <UseFakeCore Condition="'$(GameVersion)' == 'latest'">false</UseFakeCore>
         <FakeCoreOutDir>$(MSBuildThisFileDirectory)../FakeCore/bin/$(Configuration)/$(GameVersion)/</FakeCoreOutDir>
@@ -120,18 +121,45 @@
         </Reference>
     </ItemGroup>
 
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="All" />
+    </ItemGroup>
+
     <Target Name="CopyToModPath" AfterTargets="Build" Condition="'$(ModPath)' != '' and '$(GameVersion)' != 'latest'">
         <Copy SourceFiles="$(TargetPath)"
-              DestinationFiles="$(ModPath)/JipperResourcePack/VersionSafe/$(TargetName).$(GameVersion).dll"
+              DestinationFiles="$(ModPath)/JipperResourcePack/VersionSafe/$(TargetName).$(GameVersionCanonical).dll"
+              SkipUnchangedFiles="true"/>
+        <Copy SourceFiles="$(TargetPath)"
+              DestinationFiles="$(ModPath)/JipperResourcePack/VersionSafe/$(TargetName).R148.dll"
+              Condition="'$(GameRelease)' == '146'"
+              SkipUnchangedFiles="true"/>
+        <!-- Mono resolves compile-time references from the mod directory. Keep an
+             unversioned alias there as well; this makes the Assembly.LoadFrom call
+             in the bootstrapper satisfy JipperResourcePack.VersionSafe reliably. -->
+        <Copy SourceFiles="$(TargetPath)"
+              DestinationFiles="$(ModPath)/JipperResourcePack/$(TargetName).dll"
+              SkipUnchangedFiles="true"/>
+        <Copy SourceFiles="$(TargetPath)"
+              DestinationFiles="$(ModPath)/JipperResourcePack/assembly_cache/$(TargetName).dll"
               SkipUnchangedFiles="true"/>
         <Copy SourceFiles="$(TargetDir)$(TargetName).pdb"
-              DestinationFiles="$(ModPath)/JipperResourcePack/VersionSafe/$(TargetName).$(GameVersion).pdb"
+              DestinationFiles="$(ModPath)/JipperResourcePack/VersionSafe/$(TargetName).$(GameVersionCanonical).pdb"
               Condition="Exists('$(TargetDir)$(TargetName).pdb')" SkipUnchangedFiles="true"/>
     </Target>
 
     <Target Name="CopyToReleasePath" AfterTargets="Build" Condition="'$(ReleasePath)' != '' and '$(Configuration)' == 'Release' and '$(GameVersion)' != 'latest'">
         <Copy SourceFiles="$(TargetPath)"
-              DestinationFiles="$(ReleasePath)/JipperResourcePack/VersionSafe/$(TargetName).$(GameVersion).dll"
+              DestinationFiles="$(ReleasePath)/JipperResourcePack/VersionSafe/$(TargetName).$(GameVersionCanonical).dll"
+              SkipUnchangedFiles="true"/>
+        <Copy SourceFiles="$(TargetPath)"
+              DestinationFiles="$(ReleasePath)/JipperResourcePack/VersionSafe/$(TargetName).R148.dll"
+              Condition="'$(GameRelease)' == '146'"
+              SkipUnchangedFiles="true"/>
+        <Copy SourceFiles="$(TargetPath)"
+              DestinationFiles="$(ReleasePath)/JipperResourcePack/$(TargetName).dll"
+              SkipUnchangedFiles="true"/>
+        <Copy SourceFiles="$(TargetPath)"
+              DestinationFiles="$(ReleasePath)/JipperResourcePack/assembly_cache/$(TargetName).dll"
               SkipUnchangedFiles="true"/>
     </Target>
 

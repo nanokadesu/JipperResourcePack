@@ -1,5 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
+        <GameVersion Condition="'$(GameVersion)' == ''">r146</GameVersion>
+        <GameRelease Condition="'$(GameVersion)' != 'latest'">$(GameVersion.Substring(1))</GameRelease>
+        <GameRelease Condition="'$(GameVersion)' == 'latest'">99999</GameRelease>
+        <DefineConstants Condition="$(GameRelease) &gt;= 141">$(DefineConstants);R141After</DefineConstants>
+        <DefineConstants Condition="$(GameRelease) &gt;= 146">$(DefineConstants);R146After</DefineConstants>
+        <DefineConstants Condition="$(GameRelease) &gt;= 149">$(DefineConstants);R149After</DefineConstants>
         <TargetFramework>net481</TargetFramework>
         <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
         <AutomaticallyUseFrameworkAssemblies>false</AutomaticallyUseFrameworkAssemblies>
@@ -27,6 +33,18 @@
         <FrameworkPathOverride>$(GameManagedPath)</FrameworkPathOverride>
         <TargetFrameworkDirectory>$(GameManagedPath)</TargetFrameworkDirectory>
     </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="..\JipperResourcePack.VersionSafe\VersionSafe.cs" Link="VersionSafe.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Remove="KeyViewerContents\OtherModApi\KeyboardChatterBlockerAPI.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Remove="KeyViewerContents\OtherModApi\KeyboardChatterBlockerAPI.cs" />
+    </ItemGroup>
 
     <ItemGroup>
         <Reference Include="0Harmony">
@@ -514,11 +532,13 @@
              by BuildVersionSafeBuckets below: Rider and VS collapse ProjectReferences that point
              at the same .csproj into one graph node, so the AdditionalProperties variants get
              deduped away and only this one is ever built. -->
-        <ProjectReference Include="..\JipperResourcePack.VersionSafe\JipperResourcePack.VersionSafe.csproj"
-                          AdditionalProperties="GameVersion=latest" Private="false"/>
     </ItemGroup>
 
-    <Target Name="BuildVersionSafeBuckets" AfterTargets="Build">
+    <ItemGroup>
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="All" />
+    </ItemGroup>
+
+    <Target Name="BuildVersionSafeBuckets" AfterTargets="Build" Condition="'$(BuildVersionSafeBuckets)' != 'false'">
         <ItemGroup>
             <VersionSafeBucket Include="$(MSBuildThisFileDirectory)../JipperResourcePack.VersionSafe/JipperResourcePack.VersionSafe.csproj">
                 <AdditionalProperties>GameVersion=R136</AdditionalProperties>

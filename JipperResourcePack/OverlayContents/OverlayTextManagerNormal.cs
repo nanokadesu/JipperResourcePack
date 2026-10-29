@@ -44,7 +44,9 @@ public class OverlayTextManagerNormal : IOverlayTextManager {
                 xacc * 100, potentialXAcc * 100, decimalPlaces,
                 Status.Settings.XAccuracyColor, xacc, potentialXAcc);
         }
+#if R149After
         if(Status.Settings.ShowXScore && VersionSafe.XScoreSupported) UpdateXScore(overlay, VersionSafe.GetJudgedTiles(overlay.Hit, seqID), remaining);
+#endif
     }
 
     protected static void SetDualText(PotentialTextType type, TextMeshProUGUI text, TextMeshProUGUI potentialText, string label,
@@ -74,6 +76,7 @@ public class OverlayTextManagerNormal : IOverlayTextManager {
         return Overlay.WriteText(buffer, " |</color> ", index);
     }
 
+#if R149After
     private static void UpdateXScore(Overlay overlay, int judged, int remaining) {
         int perfectValue = HitMargin.XPerfect.ToXScore();
         int xScore = scrMistakesManager.marginTrackers[0].xScore;
@@ -100,6 +103,7 @@ public class OverlayTextManagerNormal : IOverlayTextManager {
         overlay.PotentialXScoreText.SetCharArray(buffer, 0, potentialIndex);
         overlay.PotentialXScoreText.color = cpd.GetColor(totalXScore == 0 ? 1 : (float) potentialXScore / totalXScore);
     }
+#endif
 
     public virtual void UpdateProgress(Overlay overlay) {
         char[] buffer = Main.SharedBuffer;

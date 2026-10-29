@@ -96,6 +96,7 @@ public class Combo : Feature {
         }
     }
     
+#if R149After
     [JAPatch(nameof(scrMarginTracker), nameof(scrMarginTracker.AddHit), PatchType.Postfix, true, MinVersion = 149)]
     public static void OnHitR149(HitMargin hit) {
         ComboTier settingsTier = Settings.ComboJudgementTier;
@@ -123,6 +124,7 @@ public class Combo : Feature {
                 break;
         }
     }
+#endif
 
     [JAPatch(typeof(scrController), "Awake_Rewind", PatchType.Postfix, false)]
     public static void OnHUDTextAwake(Text ___txtLevelName) {

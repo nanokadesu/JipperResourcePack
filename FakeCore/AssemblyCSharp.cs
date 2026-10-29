@@ -75,6 +75,7 @@ public class scrPlayerManager {
 public class Persistence {
 	public static bool enableCompetitiveMode => throw new Exception("stub");
 }
+
 #endif
 
 public static class RDUtils {

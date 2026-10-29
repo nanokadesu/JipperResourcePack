@@ -22,6 +22,8 @@ public class Main() : JAMod(typeof(ResourcePackSetting)) {
     public static SettingGUI SettingGUI;
     public static ResourcePackSetting Settings;
     private static bool _creditsShown;
+    private static Assembly _versionSafeAssembly;
+    private static string _versionSafePath;
     private string _sizeString;
     private bool _fontListExpanded;
     private string _fontSearch;
@@ -45,14 +47,44 @@ public class Main() : JAMod(typeof(ResourcePackSetting)) {
     private void LoadVersionSafe() {
         int release = VersionControl.releaseNumber;
         string ver = release switch {
-            >= 149 => "R149",
+            149 => "R149",
+            148 => "R148",
             >= 146 => "R146",
             >= 141 => "R141",
             _ => "R136"
         };
         
-        Assembly.LoadFrom(System.IO.Path.Combine(Path, "VersionSafe", $"JipperResourcePack.VersionSafe.{ver}.dll"));
+        string versionSafeDirectory = System.IO.Path.Combine(Path, "VersionSafe");
+        string expectedName = $"JipperResourcePack.VersionSafe.{ver}.dll";
+        _versionSafePath = System.IO.Path.Combine(versionSafeDirectory, expectedName);
+        if(!System.IO.File.Exists(_versionSafePath)) {
+            // Linux installations are case-sensitive, while older builds used the
+            // lower-case GameVersion value in the output filename.
+            _versionSafePath = System.IO.Directory.Exists(versionSafeDirectory)
+                ? System.IO.Directory.GetFiles(versionSafeDirectory, "JipperResourcePack.VersionSafe.*.dll")
+                    .FirstOrDefault(file => string.Equals(System.IO.Path.GetFileNameWithoutExtension(file),
+                        $"JipperResourcePack.VersionSafe.{ver}", StringComparison.OrdinalIgnoreCase))
+                : null;
+        }
+        if(string.IsNullOrEmpty(_versionSafePath) || !System.IO.File.Exists(_versionSafePath))
+            throw new System.IO.FileNotFoundException($"VersionSafe assembly for {ver} was not found.", _versionSafePath);
+
+        // The main assembly has a compile-time reference to VersionSafe. Keep the
+        // assembly in Mono's load-from context and return this exact instance from
+        // AssemblyResolve; loading a second copy from raw bytes is not reliable
+        // when JALib has already loaded the mod from its assembly cache.
+        AppDomain.CurrentDomain.AssemblyResolve -= ResolveVersionSafe;
+        AppDomain.CurrentDomain.AssemblyResolve += ResolveVersionSafe;
+        _versionSafeAssembly = Assembly.LoadFrom(_versionSafePath);
         Log("Loaded VersionSafe for " + ver);
+    }
+
+    private static Assembly ResolveVersionSafe(object sender, ResolveEventArgs args) {
+        string requestedName = args.Name.Split(',')[0].Trim();
+        if(!string.Equals(requestedName, "JipperResourcePack.VersionSafe", StringComparison.Ordinal)) return null;
+        return _versionSafeAssembly ?? (System.IO.File.Exists(_versionSafePath)
+            ? Assembly.LoadFrom(_versionSafePath)
+            : null);
     }
 
     private void AddFeature() {

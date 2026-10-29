@@ -107,6 +107,7 @@ public class OverlayTextManagerCoop : IOverlayTextManager {
                 overlay.PotentialXAccuracyText.SetCharArray(buffer, 0, textIndex);
             }
         }
+#if R149After
         if(Status.Settings.ShowXScore && VersionSafe.XScoreSupported) {
             if(index == -1)
                 for(int i = 0; i < PlayerArray.Length; i++)
@@ -129,11 +130,13 @@ public class OverlayTextManagerCoop : IOverlayTextManager {
                 overlay.PotentialXScoreText.SetCharArray(buffer, 0, textIndex);
             }
         }
+#endif
     }
 
     private static int GetSeqID(int i) => scrPlayerManager.instance.allPlayers[i].planetarySystem.chosenPlanet.currfloor.seqID;
 
     [MethodImpl(MethodImplOptions.NoInlining)]
+#if R149After
     private static void SetXScore(Overlay overlay, ref PlayerData pData, int i) {
         int perfectValue = HitMargin.XPerfect.ToXScore();
         int seqID = GetSeqID(i);
@@ -161,6 +164,7 @@ public class OverlayTextManagerCoop : IOverlayTextManager {
             pData.PotentialXScoreCache.Length = WritePlayerEnd(buffer, index);
         }
     }
+#endif
 
     private void SetAccuracy(Overlay overlay, ref PlayerData pData, int i) {
         scrMarginTracker tracker = scrMistakesManager.marginTrackers[i];

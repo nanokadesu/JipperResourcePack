@@ -287,6 +287,7 @@ public class Status : Feature {
         Overlay.Instance.UpdateTiming(timing, _planet.player.playerID);
     }
 
+#if R149After
     [JAPatch(typeof(scrMisc), nameof(scrMisc.GetHitMarginInDeg), PatchType.Postfix, false, MinVersion = 149)]
     private static void GetHitMarginInDegProxyR149(float hitAngle, float refAngle, bool clockwise, float floorBpm, float conductorPitch, HitMargin __result) {
         if(!IsTimingAvailable(_planet)) return;
@@ -303,6 +304,7 @@ public class Status : Feature {
         float timing = (float) timeDiff * 1000;
         Overlay.Instance.UpdateTiming(timing, _planet.player.playerID);
     }
+#endif
 
     private static bool IsTimingAvailable(scrPlanet planet) =>
         Settings.ShowTiming && !RDC.auto && !planet.player.auto && (!planet.currfloor.nextfloor || !planet.currfloor.nextfloor.auto);
